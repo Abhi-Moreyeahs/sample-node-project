@@ -1,0 +1,24 @@
+name: Snyk Scan
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+      - name: Install Snyk open-source tool
+        run: npm install -g snyk
+      - name: Snyk scanning process
+        run: snyk auth ce1d4d14-9e9b-4caa-91dc-b904b253891e
+      - name: npm installation
+        run: npm install --strict-out-of-sync=false
+      - name: Snyk testing 
+        run: snyk test --strict-out-of-sync=false
+        env:
+          SNYK_TOKEN: ${{ secrets.ce1d4d14-9e9b-4caa-91dc-b904b253891e }}
